@@ -1,0 +1,79 @@
+# Node.js
+node_modules
+npm-debug.log
+yarn-error.log
+yarn.lock
+
+# Next.js
+.next
+out
+.DS_Store
+.env*
+!.env.example
+
+# Logs
+logs
+*.log
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+build
+dist
+
+# Editor files
+.vscode
+.idea
+*.swp
+*.swo
+*.swn
+*.bak
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Storybook
+storybook-static
+
+# Tailwind CSS
+*.css.map
+
+# Jest
+/coverage
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc
+*.lock
+*.cache
+.npm
+.pnp
+.pnp.js
+
+# IDE settings
+.vscode
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Yarn Plug'n'Play
+.pnp/
+.pnp.js
+
+# VS Code specific settings
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# MacOS
+.DS_Store
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
