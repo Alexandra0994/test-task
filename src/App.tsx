@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { Form } from "./components/form/Form.js";
 
 function App() {
   return (
-    <div>
-      <p>Welcome to Luna Edge technical interview</p>
+    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <Form />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
