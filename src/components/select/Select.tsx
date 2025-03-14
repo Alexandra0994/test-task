@@ -1,6 +1,8 @@
 import * as React from "react"
-import { XMarkIcon, ChevronDownIcon, ChevronUpIcon, InformationCircleIcon } from "@heroicons/react/24/outline"
+import { ChevronDownIcon, ChevronUpIcon, InformationCircleIcon, XMarkIcon } from "@heroicons/react/24/outline"
 import { cn } from "../../lib/utils.js"
+import { Input } from "../input/Input.js"
+import { Badge } from "../baidge/Baidge.js"
 
 export interface SelectOption {
     value: string
@@ -19,6 +21,9 @@ interface CustomSelectProps {
     onChange?: (value: string | string[]) => void
     multiple?: boolean
     className?: string
+    badgeVariant?: "default" | "red" | "yellow" | "green" | "blue" | "indigo" | "purple" | "pink" | "gray" | "orange"
+    badgeWithDot?: boolean
+    badgeWithClose?: boolean
 }
 
 export function Select({
@@ -33,14 +38,16 @@ export function Select({
     onChange,
     multiple = false,
     className,
+    badgeVariant = "default",
+    badgeWithDot = false,
+    badgeWithClose = true
 }: CustomSelectProps) {
     const [isOpen, setIsOpen] = React.useState(false)
     const [isFocused, setIsFocused] = React.useState(false)
     const [isHovered, setIsHovered] = React.useState(false)
-    const [searchQuery, setSearchQuery] = React.useState("") // New Search State
-    const [selectedValues, setSelectedValues] = React.useState<string[]>(
-        multiple ? (Array.isArray(value) ? value : []) : value ? [value as string] : []
-    )
+    const [searchQuery, setSearchQuery] = React.useState("") 
+    const [selectedValues, setSelectedValues] = React.useState<string[]>(multiple ? (Array.isArray(value) ? value : []) : value ? [value as string] : [])
+
     const selectRef = React.useRef<HTMLDivElement>(null)
 
     React.useEffect(() => {
@@ -84,15 +91,14 @@ export function Select({
         onChange?.(multiple ? newValues : newValues[0] || "")
     }
 
-    const handleRemoveValue = (optionValue: string, e: React.MouseEvent) => {
-        e.stopPropagation()
+    const handleRemoveValue = (optionValue: string) => {
         const newValues = selectedValues.filter((v) => v !== optionValue)
         setSelectedValues(newValues)
         onChange?.(multiple ? newValues : newValues[0] || "")
     }
 
     const handleClearAll = (e: React.MouseEvent) => {
-        e.stopPropagation()
+        e.stopPropagation()  
         setSelectedValues([])
         onChange?.(multiple ? [] : "")
     }
@@ -111,32 +117,20 @@ export function Select({
         if (disabled) return "border-slate-200"
         if (error) return "border-red-500"
         if (isFocused) return "border-purple-500"
-        if (isHovered) return "border-purple-500"
+        if (isHovered) return "border-purple-400"
         return "border-slate-200"
     }
 
-    const getMaxSelectionsMessage = () => {
-        if (multiple && selectedValues.length >= 4) {
-            return "Maximum of 4 selections allowed"
-        }
-        return null
-    }
-
-    const renderBadge = (label: string, index: number) => (
-        <div
-            key={index}
-            className="inline-flex items-center h-[24px] rounded bg-slate-100 hover:bg-slate-200 transition-colors duration-150 text-sm text-slate-900 py-[2px] pl-[10px] pr-[2px]"
+    const renderBadge = (label: string, value: string) => (
+        <Badge
+            key={value}
+            variant={badgeVariant}
+            withDot={badgeWithDot}
+            withClose={badgeWithClose}
+            onClose={() => handleRemoveValue(value)}
         >
-            <span className="truncate">{label}</span>
-            <button
-                type="button"
-                onClick={(e) => handleRemoveValue(selectedValues[index], e)}
-                className="ml-[8px] p-[2px] inline-flex items-center justify-center hover:bg-slate-300/50 rounded transition-colors duration-150"
-            >
-                <XMarkIcon className="h-3 w-3" />
-                <span className="sr-only">Remove {label}</span>
-            </button>
-        </div>
+            {label}
+        </Badge>
     )
 
     return (
@@ -158,31 +152,48 @@ export function Select({
                         setIsOpen(!isOpen)
                     }
                 }}
+                onMouseEnter={() => setIsHovered(true)} 
+                onMouseLeave={() => setIsHovered(false)}
                 className={cn(
-                    "relative min-h-[32px] rounded-[4px] border px-3 py-2 flex items-center justify-between gap-1",
+                    "relative min-h-[32px] rounded-[4px] border px-3 py-2 flex items-center justify-between gap-1 transition-colors duration-200", // ✅ Добавлена анимация
                     getBorderColor(),
                     disabled ? "bg-slate-100 text-slate-400 cursor-not-allowed" : "bg-white cursor-pointer"
                 )}
             >
                 <div className="flex flex-wrap items-center gap-1 overflow-hidden">
-                    {multiple && selectedValues.length > 0 ? (
-                        getSelectedLabels().map((label, index) => renderBadge(label, index))
+                    {multiple && selectedValues.length > 0
+                        ? getSelectedLabels().map((label, index) =>
+                              renderBadge(label, selectedValues[index])
+                          )
+                        : <span className="text-sm truncate text-slate-400">{placeholder}</span>}
+                </div>
+
+                <div className="flex items-center gap-1">
+                    {multiple && selectedValues.length > 0 && (
+                        <button
+                            onClick={handleClearAll}
+                            className="h-5 w-5 rounded-full flex items-center justify-center text-gray-500 hover:text-gray-700"
+                            aria-label="Clear All"
+                        >
+                            <XMarkIcon className="h-4 w-4" />
+                        </button>
+                    )}
+
+                    {isOpen ? (
+                        <ChevronUpIcon className="h-4 w-4 text-slate-400" />
                     ) : (
-                        <span className="text-sm truncate text-slate-400">
-                            {selectedValues.length > 0 ? getSelectedLabels()[0] : placeholder}
-                        </span>
+                        <ChevronDownIcon className="h-4 w-4 text-slate-400" />
                     )}
                 </div>
 
                 {isOpen && !disabled && (
                     <div className="absolute left-0 right-0 top-full mt-1 z-10 bg-white border border-slate-200 rounded-md shadow-lg max-h-60 overflow-auto">
-                        <input
-                            type="text"
+                        <Input
                             placeholder="Search Pokémon..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            onClick={(e) => e.stopPropagation()}  // Prevents dropdown from closing
-                            className="w-full px-3 py-2 border-b border-slate-200"
+                            onClick={(e) => e.stopPropagation()}  
+                            className="w-full border-none rounded-none"
                         />
                         {getFilteredOptions().map((option) => (
                             <div
@@ -197,10 +208,10 @@ export function Select({
                 )}
             </div>
 
+            {helpText && <p className="mt-1 text-sm text-slate-400">{helpText}</p>}
+
             {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
-            {multiple && getMaxSelectionsMessage() && (
-                <p className="mt-1 text-sm text-amber-500">{getMaxSelectionsMessage()}</p>
-            )}
         </div>
     )
 }
+

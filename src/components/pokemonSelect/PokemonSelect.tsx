@@ -5,11 +5,13 @@ import { Select, SelectOption } from "../select/Select.js";
 interface PokemonSelectProps {
   selectedPokemon: string[];
   setSelectedPokemon: (pokemon: string[]) => void;
+  hasSubmitted: boolean; 
 }
 
 export const PokemonSelect: React.FC<PokemonSelectProps> = ({
   selectedPokemon,
-  setSelectedPokemon
+  setSelectedPokemon,
+  hasSubmitted
 }) => {
   const [pokemonOptions, setPokemonOptions] = useState<SelectOption[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -33,10 +35,16 @@ export const PokemonSelect: React.FC<PokemonSelectProps> = ({
       setError("You can only select up to 4 Pokémon.");
       return;
     }
-
     setSelectedPokemon(selected);
-    setError(null); // Clear errors when valid
+    if (selected.length === 4) {
+      setError(null);
+    }
   };
+  useEffect(() => {
+    if (hasSubmitted && selectedPokemon.length !== 4) {
+      setError("You must select exactly 4 Pokémon.");
+    }
+  }, [hasSubmitted, selectedPokemon]);
 
   return (
     <Select
@@ -48,6 +56,7 @@ export const PokemonSelect: React.FC<PokemonSelectProps> = ({
       onChange={handleSelectChange}
       error={error || undefined}
       helpText="Search and select up to 4 Pokémon for your team."
+      badgeVariant="pink"
     />
   );
 };

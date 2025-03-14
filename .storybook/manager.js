@@ -1,6 +1,6 @@
 import { addons } from '@storybook/manager-api';
-import lunaTheme from './theme';
+import myTheme from './theme';
 
 addons.setConfig({
-    theme: lunaTheme,
+  theme: myTheme,
 });
