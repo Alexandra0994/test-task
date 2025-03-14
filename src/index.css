@@ -1,7 +1,7 @@
-@import "tailwindcss";
+ @import "tailwindcss";
 
-@theme {
-  /* Base colors */
+ @theme {
+
   --color-slate-50: oklch(0.98 0.005 240);
   --color-slate-100: oklch(0.96 0.01 240);
   --color-slate-200: oklch(0.93 0.02 240);
@@ -14,7 +14,7 @@
   --color-slate-900: oklch(0.25 0.05 240);
   --color-slate-950: oklch(0.15 0.05 240);
 
-  /* Purple colors */
+
   --color-purple-50: oklch(0.97 0.02 295);
   --color-purple-100: oklch(0.95 0.04 295);
   --color-purple-200: oklch(0.92 0.08 295);
@@ -27,7 +27,6 @@
   --color-purple-900: oklch(0.42 0.18 295);
   --color-purple-950: oklch(0.3 0.15 295);
 
-  /* Red colors */
   --color-red-50: oklch(0.97 0.02 25);
   --color-red-100: oklch(0.95 0.04 25);
   --color-red-200: oklch(0.92 0.08 25);
@@ -40,7 +39,7 @@
   --color-red-900: oklch(0.42 0.18 25);
   --color-red-950: oklch(0.3 0.15 25);
 
-  /* Amber colors */
+
   --color-amber-50: oklch(0.97 0.02 85);
   --color-amber-100: oklch(0.95 0.04 85);
   --color-amber-200: oklch(0.92 0.08 85);
@@ -53,7 +52,6 @@
   --color-amber-900: oklch(0.42 0.18 85);
   --color-amber-950: oklch(0.3 0.15 85);
 
-  /* UI colors */
   --border: 240 5.9% 90%;
   --input: 240 5.9% 90%;
   --ring: 240 5.9% 10%;
@@ -73,30 +71,5 @@
   --popover-foreground: 240 10% 3.9%;
   --card: 0 0% 100%;
   --card-foreground: 240 10% 3.9%;
-
-  /* Border radius */
   --radius: 0.5rem;
 }
-
-@theme dark {
-  /* UI colors for dark mode */
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-}
-

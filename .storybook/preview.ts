@@ -1,5 +1,6 @@
-import '../src/index.css'; // Путь к вашему файлу стилей
-
+import '../src/index.css';
+import { Preview } from '@storybook/react';
+import { themes } from '@storybook/theming';
 export const parameters = {
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
@@ -9,3 +10,12 @@ export const parameters = {
         },
     },
 };
+const preview: Preview = {
+  parameters: {
+    docs: {
+      theme: themes.normal,
+    },
+  },
+};
+
+export default preview;
