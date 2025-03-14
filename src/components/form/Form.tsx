@@ -3,7 +3,7 @@ import { PokemonSelect } from "../pokemonSelect/PokemonSelect.js";
 import { useState } from "react";
 import { Modal } from "../modal/Modal.js";
 import { Input } from "../input/Input.js";
-import { Button } from "../button/button.js";
+import { Button } from "../button/Button.js";
 
 interface FormValues {
   firstName: string;
